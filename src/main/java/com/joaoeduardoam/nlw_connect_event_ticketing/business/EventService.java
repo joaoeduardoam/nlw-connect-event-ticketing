@@ -1,6 +1,6 @@
 package com.joaoeduardoam.nlw_connect_event_ticketing.business;
 
-import com.joaoeduardoam.nlw_connect_event_ticketing.business.mapper.IEventMapper;
+import com.joaoeduardoam.nlw_connect_event_ticketing.business.mapper.IMapper;
 import com.joaoeduardoam.nlw_connect_event_ticketing.controller.dto.in.EventInDTO;
 import com.joaoeduardoam.nlw_connect_event_ticketing.controller.dto.out.EventOutDTO;
 import com.joaoeduardoam.nlw_connect_event_ticketing.infrastructure.exceptions.EventNotFoundException;
@@ -15,13 +15,13 @@ import java.util.List;
 public class EventService {
 
     private final EventRepository eventRepository;
-    private final IEventMapper mapper;
+    private final IMapper mapper;
 
 
     public EventOutDTO addNewEvent(EventInDTO eventInDTO){
         return mapper.toEventOutDTO(
                 eventRepository.save(
-                        mapper.toEntity(eventInDTO)));
+                        mapper.toEvent(eventInDTO)));
     }
 
     public List<EventOutDTO> getAllEvents(){

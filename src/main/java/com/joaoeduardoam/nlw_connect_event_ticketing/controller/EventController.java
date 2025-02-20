@@ -3,6 +3,7 @@ package com.joaoeduardoam.nlw_connect_event_ticketing.controller;
 import com.joaoeduardoam.nlw_connect_event_ticketing.controller.dto.in.EventInDTO;
 import com.joaoeduardoam.nlw_connect_event_ticketing.controller.dto.out.EventOutDTO;
 import com.joaoeduardoam.nlw_connect_event_ticketing.business.EventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class EventController {
     private final EventService service;
 
     @PostMapping("/events")
-    public ResponseEntity<EventOutDTO> addNewEvent(@RequestBody EventInDTO eventInDTO){
+    public ResponseEntity<EventOutDTO> addNewEvent(@RequestBody @Valid EventInDTO eventInDTO){
         return ResponseEntity.ok(service.addNewEvent(eventInDTO));
     }
 
