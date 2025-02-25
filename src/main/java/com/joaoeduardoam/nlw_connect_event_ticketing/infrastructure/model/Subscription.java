@@ -39,21 +39,6 @@ public class Subscription {
 
 
 
-////    public Subscription(Event event, User subscriber) {
-////        this.event = event;
-////        this.subscriber = subscriber;
-////    }
-//
-//    public Subscription(Event event, User subscriber, Integer indication) {
-//        super();
-//        this.indication
-//    }
-
-    public Subscription(Event event, User subscriber, User indication) {
-        this.event = event;
-        this.subscriber = subscriber;
-        this.indication = indication;
-    }
 
     public Subscription(Event event, User subscriber, User indication, String designation) {
         this.event = event;

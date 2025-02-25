@@ -6,10 +6,12 @@ import com.joaoeduardoam.nlw_connect_event_ticketing.infrastructure.exceptions.U
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class ExceptionEntityHandler {
@@ -26,6 +28,8 @@ public class ExceptionEntityHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<StandardError> handleEventNotFoundException(UserNotFoundException exception, HttpServletRequest request){
         HttpStatus status = HttpStatus.NOT_FOUND;
+
+
         StandardError error = new StandardError(Instant.now(), status.value(), "User not found!",
                 exception.getMessage(), request.getRequestURI());
 
@@ -41,24 +45,27 @@ public class ExceptionEntityHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-//    @ExceptionHandler(EventFullException.class)
-//    public ResponseEntity<ErrorResponseDTO> handleEventNotFoundException(EventFullException exception){
-//        return ResponseEntity.badRequest().body(new ErrorResponseDTO(exception.getMessage()));
-//    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> handleValidationExceptions(
+            MethodArgumentNotValidException exception, HttpServletRequest request) {
 
-//    @ExceptionHandler(AttendeeNotFoundException.class)
-//    public ResponseEntity handleEventNotFoundException(AttendeeNotFoundException exception){
-//        return ResponseEntity.notFound().build();
-//    }
+        HttpStatus status = HttpStatus.BAD_REQUEST;
 
-//    @ExceptionHandler(AttendeeAlreadyExistException.class)
-//    public ResponseEntity handleEventNotFoundException(AttendeeAlreadyExistException exception){
-//        return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//    }
+        String message = exception.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .collect(Collectors.joining(", "));
 
-//    @ExceptionHandler(CheckInAlreadyExistsException.class)
-//    public ResponseEntity handleEventNotFoundException(CheckInAlreadyExistsException exception) {
-//        return ResponseEntity.status(HttpStatus.CONFLICT).build();
-//
-//    }
+        StandardError error = new StandardError(
+                Instant.now(),
+                status.value(),
+                "Validation error",
+                message,
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(error);
+    }
+
 }
