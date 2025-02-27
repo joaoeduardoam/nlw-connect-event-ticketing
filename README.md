@@ -55,6 +55,28 @@ The Event Ticketing System is a platform for issuing and managing event tickets.
     🔍 Retrieve the number of registrants referred by a particular user (USERID).
     📌 Display their position in the overall ranking.
 
+## 💻Running locally
+
+### ⬇️ Clone the project
+
+```bash
+  git clone https://github.com/joaoeduardoam/nlw-connect-event-ticketing.git
+```
+
+### 📂 Enter the project directory
+
+```bash
+  cd nlw-connect-event-ticketing
+
+```
+
+### 🐳 Start the Application with Docker
+
+```bash
+  docker compose up
+```
+
+
 ## 📖 API Documentation
 
 
