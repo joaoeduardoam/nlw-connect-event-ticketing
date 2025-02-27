@@ -1,3 +1,4 @@
+
 -- Populando tabela de usuários (heróis)
 INSERT INTO users (user_id, user_name, user_email) VALUES
 (1, 'Superman', 'superman@justice.com'),
